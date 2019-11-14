@@ -1,6 +1,6 @@
 {{#if sidebar.comments}}
 
-<div class="card mt-2">
+<div class="card mt-2 shadow p-0 bg-white">
   <div class="card-header bg-dark text-white">
     <h5>
       <i class="fas fa-comments"></i> Latest Comments
@@ -9,12 +9,12 @@
   <div class="card-body">
       {{#each sidebar.comments}}
       <div class="row">
-        <div class="col">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-2 col-2">
           <a href="/images/{{image.uniqueId}}">
             <img src="/public/upload/{{image.filename}}" class="img-thumbnail w-70">
           </a>
         </div>
-        <div class="col">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-10 col-10">
           <blockquote class="w-100">
             <p>{{comment}}</p>
             <footer class="blockquote-footer">
