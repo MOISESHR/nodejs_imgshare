@@ -22,7 +22,7 @@ $(function() {
   $('#btn-delete').click(function (e) {
     e.preventDefault();
     let $this = $(this);
-    const response = confirm('Are you sure you want to delete this image?');
+    const response = confirm('Esta seguro que quiere eliminar esta imagen?');
     if (response) {
       let imgId = $(this).data('id');
       $.ajax({

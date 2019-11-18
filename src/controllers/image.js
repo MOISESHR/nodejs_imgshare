@@ -87,13 +87,77 @@ ctrl.comment= async (req, res) => {
 ctrl.remove = async (req, res) => {
   const image = await Image.findOne({filename: {$regex: req.params.image_id}});
   if (image) {
-    await fs.unlink(path.resolve('./src/public/upload/' + image.filename));
     await Comment.deleteOne({image_id: image._id});
     await image.remove();
+
+    const rutaImg= path.resolve('./src/public/upload/' + image.filename);
+    console.log(rutaImg);
+
+    // fs.exists(rutaImg);
+    // fs.stat(rutaImg);
+
+    // path.exists(rutaImg, async function(exists) { 
+    //   if (exists) { 
+    //     // do something 
+    //     console.log('File exists');
+    //       await fs.unlink(path.resolve('./src/public/upload/' + image.filename));
+    //   } 
+    //   else{
+    //     console.log('not file');
+    //   }
+    // }); 
+
+
+    //  fs.statSync(rutaImg, async function(err, stat){
+    //   if(err == null) {
+    //       console.log('File exists');
+    //       await fs.unlink(path.resolve('./src/public/upload/' + image.filename));
+    //       //code when all ok
+    //   }else if (err.code == "ENOENT") {
+    //     //file doesn't exist
+    //     console.log('not file');
+
+    //   }
+    //   else {
+    //     console.log('Some other error: ', err.code);
+    //   }
+    // });
+
+    fs.stat(rutaImg, async function(err, stat) {
+      if(err == null) {
+          console.log('File exists');
+          await fs.unlink(path.resolve('./src/public/upload/' + image.filename));
+      } else if(err.code === 'ENOENT') {
+          // file does not exist
+          fs.writeFile('log.txt', 'Some log\n');
+      } else {
+          console.log('Some other error: ', err.code);
+      }
+    });
+
+
     res.json(true);
+
+    // // Create directory if not exist (function)
+    // const createDir = (path) => {
+    //   // check if dir exist
+    //   fs.stat(path, (err, stats) => {
+    //       if (stats.isDirectory()) {
+    //           // do nothing
+    //       } else {
+    //           // if the given path is not a directory, create a directory
+    //           fs.mkdirSync(path);
+    //       }
+    //   });
+    // };
+
   } else {
     res.json({response: 'Bad Request.'})
   }
 };
 
 module.exports = ctrl;
+
+
+
+
